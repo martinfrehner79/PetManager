@@ -21,5 +21,28 @@ namespace PetManager {
                 return hash;
             }
         }
+
+        public DateTime Birthday { get; set; }
+        public int Age
+        {
+            get
+            {
+                DateTime n = DateTime.Now; // To avoid a race condition around midnight
+                int age = n.Year - Birthday.Year;
+                if (n.Month < Birthday.Month || (n.Month == Birthday.Month && n.Day < Birthday.Day))
+                    age--;
+                return age;
+            }
+        }
+
+        public Pet(DateTime birthday)
+        {
+            Birthday = birthday;
+        }
+
+        public Pet()
+        {
+            Birthday = DateTime.Now.Date;
+        }
     }
 }
